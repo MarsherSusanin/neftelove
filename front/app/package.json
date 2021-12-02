@@ -1,0 +1,31 @@
+{
+  "name": "holodec_neftelove",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Проект для финала хакатона 'Цифровой Прорыв 2021' от команды HOLODEC",
+  "author": "DevMArt <deev.maks2012@ya.ru>",
+  "scripts": {
+    "serve": "vue-cli-service serve --open",
+    "build": "vue-cli-service build",
+    "dev": "vue-cli-service serve --open"
+  },
+  "dependencies": {
+    "bootstrap": "^4.3.1",
+    "vue": "^2.6.6",
+    "vue-router": "^3.0.2"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.4.0",
+    "@vue/cli-plugin-eslint": "^3.4.0",
+    "@vue/cli-plugin-pwa": "^3.4.0",
+    "@vue/cli-service": "^3.4.0",
+    "node-sass": "^4.11.0",
+    "sass-loader": "^7.1.0",
+    "vue-template-compiler": "^2.6.6"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 11"
+  ]
+}

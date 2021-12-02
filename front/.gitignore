@@ -1,0 +1,5 @@
+.idea
+.env
+.docker-sync
+docker-compose.custom.yml
+.DS_Store

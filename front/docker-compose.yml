@@ -1,0 +1,29 @@
+version: '3.7'
+
+services:
+
+  nginx:
+    image: nginx
+    # container_name: "nginx"
+    environment:
+      - VIRTUAL_HOST=${HOST}
+    hostname: nginx
+    volumes:
+      - ./docker/nginx/conf.d/default.nginx:/etc/nginx/conf.d/default.conf
+      - ./docker/nginx/conf.d/real_ip.conf:/etc/nginx/conf.d/real_ip.conf
+      - ./app/dist/:/var/www/html/
+    networks:
+      - frontend
+
+  ### VUE #################################
+
+  vue:
+    build: 
+      context: .
+      dockerfile: ./docker/vue/Dockerfile
+    volumes:
+      - ./dist/:/app/build
+
+networks:
+  frontend:
+      name: proxy_proxy
