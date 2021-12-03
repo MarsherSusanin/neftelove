@@ -4,7 +4,9 @@ import NotFound from '../pages/NotFoundPage.vue'
 
 // Admin pages
 import Overview from '../pages/Overview.vue'
-import Tasks from '../pages/Tasks.vue'
+import TaskList from '../pages/TaskList.vue'
+import TaskAdd from '../pages/TaskAdd.vue'
+import TaskUpdate from '../pages/TaskUpdate.vue'
 
 const routes = [
   {
@@ -25,7 +27,17 @@ const routes = [
       {
         path: 'tasks',
         name: 'Tasks',
-        component: Tasks
+        component: TaskList,
+      },
+      {
+        path: 'tasks/add',
+        name: 'CreateTask',
+        component: TaskAdd
+      },
+      {
+        path: 'tasks/:id',
+        name: 'UpdateTask',
+        component: TaskUpdate
       },
     ]
   },

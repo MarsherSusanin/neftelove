@@ -47,12 +47,13 @@
             <template slot="header">
               <h3>Задания</h3>
 
-              <button class="btn btn-success"><i class="fa fa-plus"></i> Создать задание</button>
+              <button class="btn btn-success" @click="onAdd"><i class="fa fa-plus"></i> Создать задание</button>
             </template>
 
             <l-table class="table-hover table-striped"
                      :columns="taskList.columns"
-                     :data="taskList.data">
+                     :data="taskList.data"
+                     @show="onShow">
             </l-table>
           </card>
         </div>
@@ -100,6 +101,15 @@
             next_date: '04.12.2021 11:00'
           }]
         }
+      }
+    },
+    methods: {
+      onShow(id) {
+        console.log(`/tasks/${id}`)
+        this.$router.push(`/admin/tasks/${id}`)
+      },
+      onAdd() {
+        this.$router.push(`/admin/tasks/add`)
       }
     }
   }

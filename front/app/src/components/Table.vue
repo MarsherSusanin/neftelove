@@ -3,14 +3,14 @@
     <thead>
       <slot name="columns">
         <tr>
-          <th v-for="column in columns" :key="column">{{column.value}}</th>
+          <th v-for="column in columns" :key="column.value">{{column.value}}</th>
         </tr>
       </slot>
     </thead>
     <tbody>
-    <tr v-for="(item, index) in data" :key="index">
-      <slot :row="item">
-        <td v-for="column in columns" :key="column" v-if="hasValue(item, column.key)">{{itemValue(item, column.key)}}</td>
+    <tr v-for="(item, index) in data" :key="index" >
+      <slot :row="item" @click="(function(){this.$emit('show', item.id)}).bind(this)">
+        <td v-for="column in columns" :key="column.value" v-if="hasValue(item, column.key)">{{itemValue(item, column.key)}}</td>
       </slot>
     </tr>
     </tbody>
