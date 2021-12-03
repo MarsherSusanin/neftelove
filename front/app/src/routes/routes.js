@@ -7,6 +7,7 @@ import Overview from '../pages/Overview.vue'
 import TaskList from '../pages/TaskList.vue'
 import TaskAdd from '../pages/TaskAdd.vue'
 import TaskUpdate from '../pages/TaskUpdate.vue'
+import MaterialList from '../pages/MaterialList.vue'
 
 const routes = [
   {
@@ -38,6 +39,11 @@ const routes = [
         path: 'tasks/:id',
         name: 'UpdateTask',
         component: TaskUpdate
+      },
+      {
+        path: 'materials',
+        name: 'Materials',
+        component: MaterialList,
       },
     ]
   },

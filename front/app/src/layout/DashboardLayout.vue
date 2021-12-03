@@ -14,7 +14,7 @@
         <i class="nc-icon nc-alien-33"></i>
         <p>События</p>
       </sidebar-link>
-      <sidebar-link to="/admin/overview">
+      <sidebar-link to="/admin/materials">
         <i class="nc-icon nc-explore-2"></i>
         <p>Происшествия</p>
       </sidebar-link>
