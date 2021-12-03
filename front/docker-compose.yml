@@ -22,7 +22,7 @@ services:
       context: .
       dockerfile: ./docker/vue/Dockerfile
     volumes:
-      - ./dist/:/app/dist
+      - ./app/dist/:/app/dist
 
 networks:
   frontend:
