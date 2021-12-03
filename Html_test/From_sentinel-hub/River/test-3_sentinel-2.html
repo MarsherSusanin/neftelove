@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seismic Real Time View</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!--<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <script type="text/javascript" src="{{ url_for('static', filename= 'js/jquery-3.5.1.min.js') }}"></script>-->
+</head>
+<body>  
+    <input type="button" onclick="countRabbits()" value="Отправить">
+    <img id="ImagePreview"></img>
+    <img id="ImageResult"></img>
+    <script>
+        function countRabbits() {
+            let headers = new Headers();
+            headers.append('Content-Type', 'application/json; charset=utf-8');
+            headers.append('Accept', 'application/json');
+            headers.append('CrossDomain', 'true');
+            headers.append('Access-Control-Allow-Origin', 'http://192.168.0.16/getcontours');
+            headers.append('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+            headers.append('Access-Control-Max-Age', '604800');
+
+            let data = {
+                'download_data' : 'download',
+                'name_sputnik' : 'sentinel-2',
+                'type_relief' : '1', // 0 - суша, 1 - речка, 2 - море
+                'contour_line_width' : '1',
+                'sensitivity' : '20',
+                'maxcc' : '100',
+                'time_interval' : '2020-05-31/2020-06-01',
+                'lat' : '69.44226749127356',
+                'long' : '87.88040824890137',
+                'iLeng' : '10'
+            }
+
+            fetch('http://34.125.19.61/getcontours', {
+                        method: 'POST',
+                        headers: headers,
+                        body: JSON.stringify(data)
+                    })
+                    .then(response => response.json())
+                    .then(result => {
+                      
+                        var before_image = result['image']//atob(result['image']);
+                        var result_image = result['result_image']//atob(result['result_image']);
+
+                        document.getElementById("ImagePreview").src = "data:image/png;base64,"+ before_image;
+                        document.getElementById("ImageResult").src = "data:image/png;base64,"+ result_image;
+
+                        console.log('Success:', result);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+        }
+    </script>
+</body>
+</html>

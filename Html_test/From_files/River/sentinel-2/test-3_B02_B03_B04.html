@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seismic Real Time View</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <!--<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <script type="text/javascript" src="{{ url_for('static', filename= 'js/jquery-3.5.1.min.js') }}"></script>-->
+</head>
+<body>  
+    <!--<input name="inB02" type="file" id="pictureInputB02" />
+    <input name="inB03" type="file" id="pictureInputB03" />
+    <input name="inB04" type="file" id="pictureInputB04" />-->
+
+    <label class="btn btn-primary" id="labelB02">
+        <i class="fa fa-image"></i> Open file B02.jpg<input type="file" name="inB02" id="pictureInputB02" style="display: none;" name="image">
+    </label>
+
+    <label class="btn btn-primary" id="labelB03">
+        <i class="fa fa-image"></i> Open file B03.jpg<input type="file" name="inB03" id="pictureInputB03" style="display: none;" name="image">
+    </label>
+
+    <label class="btn btn-primary" id="labelB04">
+        <i class="fa fa-image"></i> Open file B04.jpg<input type="file" name="inB04" id="pictureInputB04" style="display: none;" name="image">
+    </label>
+
+    <input type="button" onclick="countRabbits()" value="Отправить">
+    <img id="ImagePreview"></img>
+    <img id="ImageResult"></img>
+    <script>
+        let myFilesB02 = {}
+        let myFilesB03 = {}
+        let myFilesB04 = {}
+        let isFilesReadyB02 = true
+        let isFilesReadyB03 = true
+        let isFilesReadyB04 = true
+
+        const fileInputB02 = document.getElementById('pictureInputB02')
+        const fileInputB03 = document.getElementById('pictureInputB03')
+        const fileInputB04 = document.getElementById('pictureInputB04')
+
+            fileInputB02.addEventListener('change', async (event) => {
+                console.log('loading B02');
+                // clean up earliest items
+                myFilesB02 = {}
+                // set state of files to false until each of them is processed
+                isFilesReadyB02 = false
+                const files = event.srcElement.files;
+                const filePromises = Object.entries(files).map(item => {
+                    return new Promise((resolve, reject) => {
+                        const [index, file] = item
+                        const reader = new FileReader();
+                        reader.readAsBinaryString(file);
+                        reader.onload = function(event) {
+                            const fileKey = 'image_B02'
+		                    // btoa is built int javascript function for base64 encoding
+                            myFilesB02[fileKey] = btoa(event.target.result)
+                            console.log('B02');
+                            const labelB02 = document.getElementById('labelB02')
+                            labelB02.innerText = 'B02 ok'
+                            resolve()
+                        };
+                        reader.onerror = function() {
+                            console.log("couldn't read the file");
+                            reject()
+                        };
+                    })
+                })
+
+                Promise.all(filePromises).then(() => {
+                    // if each file processed successfuly then set our state to true
+                    isFilesReadyB02 = true
+                })
+                .catch((error) => {
+                    console.log(error)
+                    console.log('something wrong happened')
+                })
+                //console.log(filesVV)
+            })
+
+            fileInputB03.addEventListener('change', async (event) => {
+                console.log('loading B03');
+                // clean up earliest items
+                myFilesB03 = {}
+                // set state of files to false until each of them is processed
+                isFilesReadyB03 = false
+                const files = event.srcElement.files;
+                const filePromises = Object.entries(files).map(item => {
+                    return new Promise((resolve, reject) => {
+                        const [index, file] = item
+                        const reader = new FileReader();
+                        reader.readAsBinaryString(file);
+                        reader.onload = function(event) {
+                            const fileKey = 'image_B03'
+		                    // btoa is built int javascript function for base64 encoding
+                            myFilesB03[fileKey] = btoa(event.target.result)
+                            console.log('B03');
+                            const labelB03 = document.getElementById('labelB03')
+                            labelB03.innerText = 'B03 ok'
+                            resolve()
+                        };
+                        reader.onerror = function() {
+                            console.log("couldn't read the file");
+                            reject()
+                        };
+                    })
+                })
+
+                Promise.all(filePromises).then(() => {
+                    // if each file processed successfuly then set our state to true
+                    isFilesReadyB03 = true
+                })
+                .catch((error) => {
+                    console.log(error)
+                    console.log('something wrong happened')
+                })
+                //console.log(filesVV)
+            })
+
+            fileInputB04.addEventListener('change', async (event) => {
+                console.log('loading B04');
+                // clean up earliest items
+                myFilesB04 = {}
+                // set state of files to false until each of them is processed
+                isFilesReadyB04 = false
+                const files = event.srcElement.files;
+                const filePromises = Object.entries(files).map(item => {
+                    return new Promise((resolve, reject) => {
+                        const [index, file] = item
+                        const reader = new FileReader();
+                        reader.readAsBinaryString(file);
+                        reader.onload = function(event) {
+                            const fileKey = 'image_B04'
+		                    // btoa is built int javascript function for base64 encoding
+                            myFilesB04[fileKey] = btoa(event.target.result)
+                            console.log('B04');
+                            const labelB04 = document.getElementById('labelB04')
+                            labelB04.innerText = 'B04 ok'
+                            resolve()
+                        };
+                        reader.onerror = function() {
+                            console.log("couldn't read the file");
+                            reject()
+                        };
+                    })
+                })
+
+                Promise.all(filePromises).then(() => {
+                    // if each file processed successfuly then set our state to true
+                    isFilesReadyB04 = true
+                })
+                .catch((error) => {
+                    console.log(error)
+                    console.log('something wrong happened')
+                })
+                //console.log(filesVH)
+            })
+
+        function countRabbits() {
+            let headers = new Headers();
+            headers.append('Content-Type', 'application/json; charset=utf-8');
+            headers.append('Accept', 'application/json');
+            headers.append('CrossDomain', 'true');
+            headers.append('Access-Control-Allow-Origin', 'http://192.168.0.16/getcontours');
+            headers.append('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+            headers.append('Access-Control-Max-Age', '604800');
+
+            const fileFieldB02 = document.querySelector('input[name="inB02"]');
+            const fileFieldB03 = document.querySelector('input[name="inB03"]');
+            const fileFieldB04 = document.querySelector('input[name="inB04"]');
+            
+            if(!isFilesReadyB02){
+                console.log('B02 file still getting processed')
+                return
+            }
+
+            if(!isFilesReadyB03){
+                console.log('B03 file still getting processed')
+                return
+            }
+
+            if(!isFilesReadyB04){
+                console.log('B04 file still getting processed')
+                return
+            }
+
+            let data = {
+                'download_data' : 'exist',
+                'name_sputnik' : 'sentinel-2',
+                'type_relief' : '1', // 0 - суша, 1 - речка, 2 - море
+                'contour_line_width' : '1',
+                'sensitivity' : '20'
+            }
+
+            Object.entries(myFilesB02).map(item => {
+	            // destruct the file
+                const [key, file] = item
+	            // append it to our data object
+                data[key] = file
+                console.log('B02 to data');
+            })
+
+            Object.entries(myFilesB03).map(item => {
+	            // destruct the file
+                const [key, file] = item
+	            // append it to our data object
+                data[key] = file
+                console.log('B03 to data');
+            })
+
+            Object.entries(myFilesB04).map(item => {
+	            // destruct the file
+                const [key, file] = item
+	            // append it to our data object
+                data[key] = file
+                console.log('B04 to data');
+            })
+
+            
+                    fetch('http://34.125.19.61/getcontours', {
+                        method: 'POST',
+                        headers: headers,
+                        body: JSON.stringify(data)
+                    })
+                    .then(response => response.json())
+                    .then(result => {
+                      
+                        var before_image = result['image']//atob(result['image']);
+                        var result_image = result['result_image']//atob(result['result_image']);
+
+                        document.getElementById("ImagePreview").src = "data:image/png;base64,"+ before_image;
+                        document.getElementById("ImageResult").src = "data:image/png;base64,"+ result_image;
+
+                        console.log('Success:', result);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+        }
+    </script>
+</body>
+</html>

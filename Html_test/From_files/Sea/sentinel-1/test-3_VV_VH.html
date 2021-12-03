@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seismic Real Time View</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <!--<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <script type="text/javascript" src="{{ url_for('static', filename= 'js/jquery-3.5.1.min.js') }}"></script>-->
+</head>
+<body>  
+    <!--<input name="inVV" type="file" id="pictureInputVV" value="Открыть VV-файл" />
+    <input name="inVH" type="file" id="pictureInputVH"  value="Открыть VH-файл" /> -->
+
+    <label class="btn btn-primary" id="labelVV">
+        <i class="fa fa-image"></i> Open file VV.jpg<input type="file" name="inVV" id="pictureInputVV" style="display: none;" name="image">
+    </label>
+
+    <label class="btn btn-primary" id="labelVH">
+        <i class="fa fa-image"></i> Open file VH.jpg<input type="file" name="inVH" id="pictureInputVH" style="display: none;" name="image">
+    </label>
+
+    <input type="button" onclick="countRabbits()" value="Отправить">
+    <img id="ImagePreview"></img>
+    <img id="ImageResult"></img>
+    <script>
+        let myFilesVV = {}
+        let myFilesVH = {}
+        let isFilesReadyVV = true
+        let isFilesReadyVH = true
+
+        const fileInputVV = document.getElementById('pictureInputVV')
+        const fileInputVH = document.getElementById('pictureInputVH')
+
+            fileInputVV.addEventListener('change', async (event) => {
+                console.log('loading VV');
+                // clean up earliest items
+                myFilesVV = {}
+                // set state of files to false until each of them is processed
+                isFilesReadyVV = false
+                const files = event.srcElement.files;
+                const filePromises = Object.entries(files).map(item => {
+                    return new Promise((resolve, reject) => {
+                        const [index, file] = item
+                        const reader = new FileReader();
+                        reader.readAsBinaryString(file);
+                        reader.onload = function(event) {
+                            const fileKey = 'image_VV'
+		                    // btoa is built int javascript function for base64 encoding
+                            myFilesVV[fileKey] = btoa(event.target.result)
+                            console.log('VV');
+                            const labelVV = document.getElementById('labelVV')
+                            labelVV.innerText = 'VV ok'
+                            resolve()
+                        };
+                        reader.onerror = function() {
+                            console.log("couldn't read the file");
+                            reject()
+                        };
+                    })
+                })
+
+                Promise.all(filePromises).then(() => {
+                    // if each file processed successfuly then set our state to true
+                    isFilesReadyVV = true
+                })
+                .catch((error) => {
+                    console.log(error)
+                    console.log('something wrong happened')
+                })
+                //console.log(filesVV)
+            })
+
+            fileInputVH.addEventListener('change', async (event) => {
+                // clean up earliest items
+                myFilesVH = {}
+                // set state of files to false until each of them is processed
+                isFilesReadyVH = false
+                const files = event.srcElement.files;
+                const filePromises = Object.entries(files).map(item => {
+                    return new Promise((resolve, reject) => {
+                        const [index, file] = item
+                        const reader = new FileReader();
+                        reader.readAsBinaryString(file);
+                        reader.onload = function(event) {
+                            const fileKey = 'image_VH'
+		                    // btoa is built int javascript function for base64 encoding
+                            myFilesVH[fileKey] = btoa(event.target.result)
+                            console.log('VH');
+                            const labelVH = document.getElementById('labelVH')
+                            labelVH.innerText = 'VH ok'
+                            resolve()
+                        };
+                        reader.onerror = function() {
+                            console.log("couldn't read the file");
+                            reject()
+                        };
+                    })
+                })
+
+                Promise.all(filePromises).then(() => {
+                    // if each file processed successfuly then set our state to true
+                    isFilesReadyVH = true
+                })
+                .catch((error) => {
+                    console.log(error)
+                    console.log('something wrong happened')
+                })
+                //console.log(filesVH)
+            })
+
+        function countRabbits() {
+            let headers = new Headers();
+            headers.append('Content-Type', 'application/json; charset=utf-8');
+            headers.append('Accept', 'application/json');
+            headers.append('CrossDomain', 'true');
+            headers.append('Access-Control-Allow-Origin', 'http://192.168.0.16/getcontours');
+            headers.append('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+            headers.append('Access-Control-Max-Age', '604800');
+
+            const fileFieldVV = document.querySelector('input[name="inVV"]');
+            const fileFieldVH = document.querySelector('input[name="inVH"]');
+            
+            if(!isFilesReadyVV){
+                console.log('VV file still getting processed')
+                return
+            }
+
+            if(!isFilesReadyVH){
+                console.log('VH file still getting processed')
+                return
+            }
+
+            let data = {
+                'download_data' : 'exist',
+                'name_sputnik' : 'sentinel-1',
+                'type_relief' : '2', // 0 - суша, 1 - речка, 2 - море
+                'contour_line_width' : '2',
+                'sensitivity' : '70'
+            }
+
+            Object.entries(myFilesVV).map(item => {
+	            // destruct the file
+                const [key, file] = item
+	            // append it to our data object
+                data[key] = file
+                console.log('VV to data');
+            })
+
+            Object.entries(myFilesVH).map(item => {
+	            // destruct the file
+                const [key, file] = item
+	            // append it to our data object
+                data[key] = file
+                console.log('VH to data');
+            })
+
+            
+                    fetch('http://34.125.19.61/getcontours', {
+                        method: 'POST',
+                        headers: headers,
+                        body: JSON.stringify(data)
+                    })
+                    .then(response => response.json())
+                    .then(result => {
+                      
+                        var before_image = result['image']//atob(result['image']);
+                        var result_image = result['result_image']//atob(result['result_image']);
+
+                        document.getElementById("ImagePreview").src = "data:image/png;base64,"+ before_image;
+                        document.getElementById("ImageResult").src = "data:image/png;base64,"+ result_image;
+
+                        console.log('Success:', result);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+        }
+    </script>
+</body>
+</html>
