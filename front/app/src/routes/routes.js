@@ -4,6 +4,7 @@ import NotFound from '../pages/NotFoundPage.vue'
 
 // Admin pages
 import Overview from '../pages/Overview.vue'
+import Tasks from '../pages/Tasks.vue'
 
 const routes = [
   {
@@ -20,6 +21,11 @@ const routes = [
         path: 'overview',
         name: 'Overview',
         component: Overview
+      },
+      {
+        path: 'tasks',
+        name: 'Tasks',
+        component: Tasks
       },
     ]
   },

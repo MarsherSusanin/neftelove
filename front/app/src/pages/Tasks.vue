@@ -1,0 +1,109 @@
+<template>
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row">
+
+        <div class="col-xl-4 col-md-6">
+          <stats-card>
+            <div slot="header" class="icon-success">
+              <i class="nc-icon nc-spaceship text-success"></i>
+            </div>
+            <div slot="content">
+              <p class="card-category">Активные задания</p>
+              <h4 class="card-title">5</h4>
+            </div>
+          </stats-card>
+        </div>
+
+        <div class="col-xl-4 col-md-6">
+          <stats-card>
+            <div slot="header" class="icon-info">
+              <i class="nc-icon nc-spaceship text-info"></i>
+            </div>
+            <div slot="content">
+              <p class="card-category">Выполненные задания</p>
+              <h4 class="card-title">5</h4>
+            </div>
+          </stats-card>
+        </div>
+
+        <div class="col-xl-4 col-md-6">
+          <stats-card>
+            <div slot="header" class="icon-secondary">
+              <i class="nc-icon nc-spaceship text-secondary"></i>
+            </div>
+            <div slot="content">
+              <p class="card-category">Архив заданий</p>
+              <h4 class="card-title">5</h4>
+            </div>
+          </stats-card>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <card>
+            <template slot="header">
+              <h3>Задания</h3>
+
+              <button class="btn btn-success"><i class="fa fa-plus"></i> Создать задание</button>
+            </template>
+
+            <l-table class="table-hover table-striped"
+                     :columns="taskList.columns"
+                     :data="taskList.data">
+            </l-table>
+          </card>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+  import Card from '../components/Cards/Card.vue'
+  import StatsCard from '../components/Cards/StatsCard.vue'
+  import LTable from '../components/Table.vue'
+
+  export default {
+    components: {
+      LTable,
+      StatsCard,
+      Card
+    },
+    data () {
+      return {
+        
+      }
+    },
+    computed: {
+      taskList() {
+        return  {
+          columns: [{key:'id', value:'#'}, {key:'name', value:'Название'}, {key:'last_date', value:'Последнее обновление'}, {key:'next_date', value:'Следующее обновление'}],
+          data: [{
+            id: 1,
+            name: 'Сызрань',
+            last_date: '02.12.2021 16:03',
+            next_date: '04.12.2021 16:00'
+          },
+          {
+            id: 2,
+            name: 'Нефтеюганск',
+            last_date: '01.12.2021 12:01',
+            next_date: '05.12.2021 12:00'
+          },
+          {
+            id: 3,
+            name: 'Алапаевск',
+            last_date: '02.12.2021 11:00',
+            next_date: '04.12.2021 11:00'
+          }]
+        }
+      }
+    }
+  }
+</script>
+<style lang="scss" scoped>
+  
+</style>

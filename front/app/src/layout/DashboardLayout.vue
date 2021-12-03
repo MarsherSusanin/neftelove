@@ -6,7 +6,7 @@
         <i class="nc-icon nc-planet"></i>
         <p>Инфо</p>
       </sidebar-link>
-      <sidebar-link to="/admin/overview">
+      <sidebar-link to="/admin/tasks">
         <i class="nc-icon nc-spaceship"></i>
         <p>Задания</p>
       </sidebar-link>
