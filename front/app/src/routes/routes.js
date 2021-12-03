@@ -8,6 +8,7 @@ import TaskList from '../pages/TaskList.vue'
 import TaskAdd from '../pages/TaskAdd.vue'
 import TaskUpdate from '../pages/TaskUpdate.vue'
 import MaterialList from '../pages/MaterialList.vue'
+import AlertList from '../pages/AlertList.vue'
 
 const routes = [
   {
@@ -44,6 +45,11 @@ const routes = [
         path: 'materials',
         name: 'Materials',
         component: MaterialList,
+      },
+      {
+        path: 'alertList',
+        name: 'AlertList',
+        component: AlertList,
       },
     ]
   },
