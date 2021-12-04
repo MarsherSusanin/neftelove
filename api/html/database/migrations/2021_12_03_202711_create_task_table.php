@@ -17,6 +17,7 @@ class CreateTaskTable extends Migration
             $table->id();
             $table->string('name', 100)->index('name');
             $table->text('description');
+            $table->text('pereodic');
             $table->string('name_sputnik', 100)->index('name_sputnik');
             $table->integer('contour_line_width');
             $table->integer('sensetivity');

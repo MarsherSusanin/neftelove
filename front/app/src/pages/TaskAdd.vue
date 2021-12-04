@@ -18,7 +18,7 @@ import TaskInfo from '../components/TaskInfo.vue'
     },
     methods: {
       onSend(data) {
-
+        this.$store.dispatch('setTask', data)
       }
     }
   }

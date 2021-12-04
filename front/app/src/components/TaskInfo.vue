@@ -10,7 +10,7 @@
 
             <input type="text" placeholder="Название задания" v-model="info.name">
 
-            <textarea placeholder="Описание задания" v-model="info.name"></textarea>
+            <textarea placeholder="Описание задания" v-model="info.description"></textarea>
 
             <input type="number" placeholder="Переодичность обновления" v-model="info.pereodic">
 
@@ -23,7 +23,26 @@
             <h4 slot="header" class="card-title">Область съемки</h4>
             <div class="row">
               <div class="col-md-12">
-                <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A3e8da3778c0d4821707b7a54d0f7d688d2cd4f34cfdd23517bc03fa71ada3255&amp;source=constructor" width="100%" height="464" frameborder="0"></iframe>
+
+                <yandex-map 
+                  :coords="[54.62896654088406, 39.731893822753904]"
+                  :map-events="['click']"
+                  zoom="8"
+                  style="width: 100%; height: 700px;"
+                  @click="onMapClick"
+                >
+
+                    <ymap-marker 
+                      marker-id="1"
+                      marker-type="rectangle"
+                      :coords="[[54.62896654088406, 39.731893822753904], [54.92896664088406, 40.231893832753904]]"
+                      :marker-fill="{color: '#049F0C', opacity: 0.2}"
+                      :marker-stroke="{color: '#049F0C', width: 1}"
+                      :balloon="{header: 'header', body: 'body', footer: 'footer'}"
+                    ></ymap-marker>
+
+                </yandex-map>
+
               </div>
             </div>
           </card>
@@ -84,11 +103,14 @@ import SATELLITES from '../enums/satellites'
 import PRESETS from '../enums/task_config_presets'
 
 import Card from '../components/Cards/Card.vue'
+import { yandexMap, ymapMarker } from 'vue-yandex-maps'
 
 export default {
   name: 'TaskInfo',
   components: {
-    Card
+    Card,
+    yandexMap, 
+    ymapMarker
   },
   props: {
     data: {
@@ -99,12 +121,26 @@ export default {
     return {
       SATELLITES,
       PRESETS,
+      mapInstance: null,
+      isRect: false,
       info: {},
       preset: null,
       coord: {
-        lat: null,
-        long: null,
-        iLeng: null
+        lat: 54.62896654088406,
+        long: 39.731893822753904,
+        i_leng: 10
+      }
+    }
+  },
+  computed: {
+    coordMap: {
+      get: function() {
+        return [this.coord.lat + (5 / 110.574), this.coord.long + (5 / (111.320 * Math.cos(this.coord.lat)))]
+      },
+      set: function([lat, long]) {
+        this.coord.lat = lat - (5 / 110.574)
+        this.coord.long = long - (5 / (111.320 * Math.cos(this.coord.lat)))
+        this.coord.i_leng = 10
       }
     }
   },
@@ -116,6 +152,18 @@ export default {
     setPreset(preset) {
       this.preset = preset
       Object.assign(this.info, preset)
+    },
+
+    initMapHandler(instance) {
+      this.mapInstance = instance
+      console.log(instance)
+      this.mapInstance.events.add('click', (e) => {
+        console.log(e)
+      })
+    },
+
+    onMapClick(e) {
+      console.log(e)
     }
   },
   mounted() {
@@ -123,7 +171,7 @@ export default {
       this.info = this.data
     } else {
       this.preset = PRESETS.LAND
-      this.info = Object.assign({}, { name: '', desc: '', pereodic: null }, PRESETS.LAND)
+      this.info = Object.assign({}, { name: '', description: '', pereodic: null }, PRESETS.LAND)
     }
   }
 }
