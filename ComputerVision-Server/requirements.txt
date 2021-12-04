@@ -1,0 +1,11 @@
+Flask
+sentinelhub
+matplotlib
+pillow
+pil
+numpy
+numpyencoder
+pandas
+cv2
+scipy
+pyproj
