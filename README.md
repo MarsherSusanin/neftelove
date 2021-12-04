@@ -62,5 +62,5 @@ python3 HighLight.py
 - [Радаев Иван](https://t.me/MarsherSus), project lead, старший инженер ТОИ ДВО РАН, опыт ведения разработки стартапов и IT решений
 - [Любавский Глеб](https://t.me/Liubavskii_Gleb), senior designer, UI/UX, продуктовый дизайн, международные и федеральные бренды
 - [Гриценко Владимир](https://t.me/Amiwriter), senior architector, back-end, мнс ТОИ ДВО РАН, 15 лет стажа разработки промышленного ПО
-- [Деев Максим](https://t.me/MaksDeev), middle fullstack, преподаватель нескольких онлайн школ программирования, 7 лет боевой разработки
+- [Деев Максим](https://t.me/MaksDeev), senior fullstack, преподаватель нескольких онлайн школ программирования, 7 лет боевой разработки
 - [Вилков Виктор](https://t.me/moskoviy), junior front-end, молодой и амбициозный 
