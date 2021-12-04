@@ -39,7 +39,17 @@ pip3 install -r requirements.txt
 ```
 ### Сервер веб-приложения
 
-
+cd neftelove/proxy
+docker-compose up
+cd ../api
+docker-compose up
+cd html
+composer install
+php artisan migrate
+cd ../../front/app
+npm run build
+cd ..
+docker-compose up
 
 ## Работа алгоритма
 
