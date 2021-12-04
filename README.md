@@ -29,11 +29,12 @@
 
 ## Инструкция по развертыванию приложения
 
-git https://github.com/MarsherSusanin/neftelove.git
+```git https://github.com/MarsherSusanin/neftelove.git```
 
 ### Сервер алгоритма
 
-```cd ./neftelove/ComputerVision-Server/
+```
+cd ./neftelove/ComputerVision-Server/
 pip3 install -r requirements.txt
 ```
 ### Сервер веб-приложения
