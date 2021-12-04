@@ -57,6 +57,7 @@ python3 HighLight.py
 
 ## Демо
 [Доступно по ссылке](http://neftelove.pena.marketing)
+[Notebook с алгоритмом обнаружения нефтреразлива у нефтепровода](https://github.com/MarsherSusanin/neftelove/blob/main/ComputerVision-Server%20(Description%20Notebook)/sentinel-2.ipynb)
 
 ## Команда
 - [Радаев Иван](https://t.me/MarsherSus), project lead, старший инженер ТОИ ДВО РАН, опыт ведения разработки стартапов и IT решений
