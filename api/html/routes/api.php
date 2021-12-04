@@ -14,6 +14,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\AlertController;
+use App\Http\Controllers\StackController;
+use App\Http\Controllers\OverviewController;
+
+//Route::post('/overview', OverviewController::class);
+
+Route::apiResources([
+    'tasks' => TaskController::class,
+    'stack' => StackController::class,
+]);
+
+Route::apiResource('alerts', AlertController::class)->except(['store']);
