@@ -33,9 +33,9 @@ git https://github.com/MarsherSusanin/neftelove.git
 
 ### Сервер алгоритма
 
-cd ./neftelove/ComputerVision-Server/
+```cd ./neftelove/ComputerVision-Server/
 pip3 install -r requirements.txt
-
+```
 ### Сервер веб-приложения
 
 
@@ -43,14 +43,16 @@ pip3 install -r requirements.txt
 ## Работа алгоритма
 
 ### HighLight для выделения нефтяных разливов:
+```
 cd "./neftelove/HighLight - function (example)"
 python3 HighLight.py
+```
 
 ### Алгоритм, проверенный и работающий на файлах локально:
-cd "./neftelove/Html_test/From_files"
+```cd "./neftelove/Html_test/From_files"```
 
 ### Алгоритм, проверенный и работающий с подтягиванием данных с sentinel-hub:
-cd "./neftelove/Html_test/From_sentinel-hub"
+```cd "./neftelove/Html_test/From_sentinel-hub"```
 
 ## Демо
 [Доступно по ссылке](http://neftelove.pena.marketing)
