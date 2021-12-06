@@ -1,103 +1,190 @@
 <template>
   <div class="content">
-    <div class="container-fluid">
+    <loader v-if="isLoading" />
+    <div v-if="!isLoading" class="container-fluid">
+      <h2>Активные задания:</h2>
       <div class="row">
 
-        <div class="col-xl-4 col-md-6">
-          <stats-card>
-            <div slot="header" class="icon-success">
-              <i class="nc-icon nc-spaceship text-success"></i>
+        <div class="col-xl-4 col-md-6" style="display: flex">
+            <div class="add" v-on:click="add">
+              <i class="far fa-plus-square"></i>
             </div>
-            <div slot="content">
-              <p class="card-category">Активные задания</p>
-              <h4 class="card-title">5</h4>
-            </div>
-          </stats-card>
         </div>
 
-        <div class="col-xl-4 col-md-6">
-          <stats-card>
-            <div slot="header" class="icon-info">
-              <i class="nc-icon nc-spaceship text-info"></i>
-            </div>
-            <div slot="content">
-              <p class="card-category">Выполненные задания</p>
-              <h4 class="card-title">5</h4>
-            </div>
-          </stats-card>
-        </div>
-
-        <div class="col-xl-4 col-md-6">
-          <stats-card>
-            <div slot="header" class="icon-secondary">
-              <i class="nc-icon nc-spaceship text-secondary"></i>
-            </div>
-            <div slot="content">
-              <p class="card-category">Архив заданий</p>
-              <h4 class="card-title">5</h4>
-            </div>
-          </stats-card>
-        </div>
-
-      </div>
-
-      <div class="row">
-        <div class="col-md-12">
+        <div 
+          class="col-xl-4 col-md-6"
+          v-for="task of taskList"
+          v-bind:key="task.id"
+        >
           <card>
-            <template slot="header">
-              <h3>Задания</h3>
+            <h4
+              v-on:click="show(task.id)"
+            >{{ task.name }}</h4>
+            <hr>
 
-              <button class="btn btn-success" @click="onAdd"><i class="fa fa-plus"></i> Создать задание</button>
-            </template>
+            <i 
+              class="far fa-minus-square delete"
+              id="del"
+              v-on:click="deleteTask(task.id)"
+              ></i>
 
-            <l-table class="table-hover table-striped"
-                     :columns="taskList.columns"
-                     :data="taskList.data"
-                     @show="onShow">
-            </l-table>
+            <p class="desc">{{ task.description }}</p>
+
+            <div class="map-container">
+              <div class="map">
+                <yandex-map 
+                    :settings="yamapSettings"
+                    :coords="[]"
+                    :bounds="[[54.62896654088406, 39.731893822753904], [54.92896664088406, 40.231893832753904]]"
+                    :controls="[]"
+                    :scroll-zoom="false"
+                    zoom="8"
+                    style="width: 300px; height: 300px;"
+                  ></yandex-map>
+                </div>
+            </div>
+
+            <hr>
+            <p class="card-footer" slot="footer"><i class="fa fa-satellite"></i> {{ task.name_sputnik }}</p>
           </card>
         </div>
+
+
+        <div class="col-xl-4 col-md-6">
+          
+        </div>
+
       </div>
+
     </div>
   </div>
 </template>
 
 <script>
   import Card from '../components/Cards/Card.vue'
-  import StatsCard from '../components/Cards/StatsCard.vue'
-  import LTable from '../components/Table.vue'
+  import { yandexMap, ymapMarker } from 'vue-yandex-maps'
+  import Loader from '../components/loader.vue'
 
   export default {
     components: {
-      LTable,
-      StatsCard,
-      Card
+      Card,
+      yandexMap,
+      ymapMarker,
+        Loader
     },
     data () {
       return {
-        taskList: {
-          columns: [{key:'id', value:'#'}, {key:'name', value:'Название'}, {key:'last_date', value:'Последнее обновление'}, {key:'next_date', value:'Следующее обновление'}],
-          data: []
-        }
+        taskList: [],
+        isLoading: true
       }
     },
     methods: {
-      onShow(id) {
+      show(id) {
         console.log(`/tasks/${id}`)
         this.$router.push(`/admin/tasks/${id}`)
       },
-      onAdd() {
+      add() {
         this.$router.push(`/admin/tasks/add`)
+      },
+      deleteTask(id) {
+        this.isLoading = true;
+        this.$store.dispatch('deleteTask', id)
+        .then(() => {
+          this.taskList = this.taskList.filter(item => item.id !== id)
+          this.isLoading = false
+        })
       }
+    },
+    computed: {
+      yamapSettings() { return this.$store.getters.yamapSettings }
     },
     mounted() {
       this.$store.dispatch('getTasks')
         .then((list) => {
-          this.taskList.data = list
+          this.taskList = list
+          this.isLoading = false
         })
     }
   }
 </script>
+
 <style lang="scss" scoped>
-  
+  h2{
+    margin-bottom: 30px;
+  }
+
+  .card {
+
+    h4{
+      cursor: pointer;
+    }
+
+    .desc{
+      text-align: center;
+      font-style: italic;
+      color: rgba(0, 0, 0, 0.7);
+      margin-bottom: 20px;
+    }
+
+    &:hover{
+      //background-color: rgba(219, 239, 239, 0.06);
+      box-shadow: 0 0 10px #ccc;
+    }
+  }
+
+  .card-header{
+    background-color: transparent;
+  }
+
+  .card-footer{
+    color: #ccc;
+    text-align: right;
+    text-transform: uppercase;
+  }
+
+  .map-container{
+    display: flex;
+    justify-content: center;
+    height: 300px;
+  }
+
+  .map{
+    width: 300px;
+    height: 300px;
+    box-shadow: 0 0 10px #ccc;
+  }
+
+  .add{
+    font-size: 120px;
+    text-align: center;
+    vertical-align: center;
+    width: 100%;
+    color: #87CB16;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: 1px solid #87CB16;
+    border-radius: 3px;
+    margin-bottom: 30px;
+    padding: 100px 0;
+
+    &:hover{
+      opacity: 0.5;
+      box-shadow: 0 0 10px #87CB16;
+    }
+  }
+
+  .delete{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: #FF4A55;
+    font-size: 23px;
+    display: block;
+
+    &:hover{
+      opacity: 0.5;
+    }
+  }
 </style>

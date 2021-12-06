@@ -2,8 +2,8 @@
   <div class="content">
     <div class="container-fluid">
       
-      <task-info @send="onSend" :data="info" />
-
+      <task-info v-if="!isLoading" @send="onSend" :data="taskInfo" />
+      <loader v-if="isLoading" />
      
     </div>
   </div>
@@ -11,27 +11,34 @@
 
 <script>
 import TaskInfo from '../components/TaskInfo.vue'
+import Loader from '../components/loader.vue'
 
   export default {
     components: {
-        TaskInfo
+        TaskInfo,
+        Loader
     },
-    computed: {
-      info() {
-        return {
-          name: 'Алапаевск',
-          desc: 'короткое описание задачи',
-          name_sputnik: SATELLITES.SENTINEL_1,
-          contour_line_width: 2,
-          sensitivity: 70,
-          maxcc: 20,
-        }
+    data() {
+      return {
+          isLoading: true,
+          taskInfo: {}
       }
     },
     methods: {
       onSend(data) {
-
+        this.isLoading = true
+        this.$store.dispatch('updateTask', data)
+          .then(() => {
+            this.isLoading = false
+          })
       }
+    },
+    mounted() {
+      this.$store.dispatch('getTask', this.$route.params.id)
+        .then((info) => {
+          this.taskInfo = info
+          this.isLoading = false
+        })
     }
   }
 </script>
