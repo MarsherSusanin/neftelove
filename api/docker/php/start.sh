@@ -26,7 +26,7 @@ elif [ "$role" = "queue" ]; then
     echo "Running the queue..."
     cd /var/www/html
     php /var/www/html/artisan queue:work --verbose --sleep=1 --tries=1 --timeout=900
-    php /var/www/html/artisan queue:listen --verbose --sleep=1 --tries=1 --timeout=900
+    # php /var/www/html/artisan queue:listen --verbose --sleep=1 --tries=1 --timeout=900
     ## В сдучае появления неудачных заданий
     ## php artisan queue:retry all
     ## php artisan queue:work --stop-when-empty

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Jobs\ProcessSatteliteAnalize;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
@@ -33,6 +34,9 @@ class TaskController extends Controller
     {
         $task = Task::create(json_decode($request->getContent(), true));
         $task->save();
+
+        ProcessSatteliteAnalize::dispatch($task);
+
         return response()->json($task);
     }
 
@@ -58,6 +62,9 @@ class TaskController extends Controller
     {
         $task->update(json_decode($request->getContent(), true));
         $task->save();
+
+        //ProcessSatteliteAnalize::dispatch($task);
+
         return response()->json($task);
     }
 

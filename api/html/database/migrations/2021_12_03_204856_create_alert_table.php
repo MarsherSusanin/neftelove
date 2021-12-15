@@ -15,10 +15,10 @@ class CreateAlertTable extends Migration
     {
         Schema::create('alerts', function (Blueprint $table) {
             $table->id();
-            $table->text('contours');
-            $table->text('contours2');
-            $table->text('image');
-            $table->text('result_image');
+            $table->longText('contours');
+            $table->longText('contours2');
+            $table->longText('image');
+            $table->longText('result_image');
             $table->foreignId('task_id')->index('task_id');
             $table->foreignId('stack_id')->nullable()->index('stack_id');
             $table->string('status', 100)->default('pending')->index('status');
