@@ -11,11 +11,13 @@ RUN echo "${TZ}" && rm /etc/localtime \
 RUN apt-get update && apt-get install -y \
     bash \
     mc \
+    htop \
     curl \
     wget \
     git \
     nodejs \
-    npm 
+    npm \
+    supervisor
 
 RUN apt-get update && apt-get install -y \
     libzip-dev \
@@ -107,6 +109,45 @@ RUN php -m \
     ## xsl \
     zip
 
+# #Install GD package:
+# ARG INSTALL_GD=true
+# RUN if [ ${INSTALL_GD} = true ]; then \
+#   apk add --update --no-cache freetype-dev libjpeg-turbo-dev jpeg-dev libpng-dev; \
+#   if [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "4" ]; then \
+#   docker-php-ext-configure gd --with-freetype --with-jpeg --with-png; \
+#   else \
+#   docker-php-ext-configure gd --with-freetype-dir=/usr/lib/ --with-jpeg-dir=/usr/lib/ --with-png-dir=/usr/lib/; \
+#   fi; \
+#   docker-php-ext-install gd \
+#   ;fi
+
+# #Install ImageMagick:
+# ARG INSTALL_IMAGEMAGICK=true
+# ARG IMAGEMAGICK_VERSION=latest
+# ENV IMAGEMAGICK_VERSION ${IMAGEMAGICK_VERSION}
+# RUN set -eux; \
+#   if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
+#   apk add --update --no-cache imagemagick-dev imagemagick; \
+#   if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+#   cd /tmp && \
+#   if [ ${IMAGEMAGICK_VERSION} = "latest" ]; then \
+#   git clone https://github.com/Imagick/imagick; \
+#   else \
+#   git clone --branch ${IMAGEMAGICK_VERSION} https://github.com/Imagick/imagick; \
+#   fi && \
+#   cd imagick && \
+#   phpize && \
+#   ./configure && \
+#   make && \
+#   make install && \
+#   rm -r /tmp/imagick; \
+#   else \
+#   pecl install imagick; \
+#   fi && \
+#   docker-php-ext-enable imagick; \
+#   php -m | grep -q 'imagick'; \
+#   fi
+
 # # set up sendmail config
 # RUN echo "hostname=localhost.localdomain" > /etc/ssmtp/ssmtp.conf
 # RUN echo "root=vincent@vfac.fr" >> /etc/ssmtp/ssmtp.conf
@@ -126,15 +167,25 @@ RUN php -m \
 
 # composer
 # COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-USER root
 RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
-USER www-data:www-data
+
+# Optional Supervisord Configuration
+COPY supervisord.conf /etc/supervisord.conf
+
+# CMD
+COPY start.sh /usr/local/bin/start
+RUN chown root:root /usr/local/bin/start
+RUN chmod 755 /usr/local/bin/start
+CMD ["/usr/local/bin/start"]
 
 # Clean up
-USER root
 RUN apt-get clean -y && apt-get autoclean -y && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/*
+
+# chmod
+RUN chmod 777 /var/www
+
 USER www-data:www-data
 
 WORKDIR /var/www

@@ -20,6 +20,8 @@ services:
 
   ### PHP #################################
   php:
+    image: neftelove_php
+    container_name: neftelove-php-app-1
     build:
       context: ./docker/php
       dockerfile: Dockerfile
@@ -29,7 +31,62 @@ services:
     volumes:
       - ./docker/php/php.ini:/usr/local/etc/php/php.ini
       - ./html/:/var/www/html/
+      - ./docker/php/supervisord.d:/etc/supervisord.d
+    environment:
+      APP_ENV: local
+      CONTAINER_ROLE: app
     hostname: php
+    depends_on:
+      - mariadb
+    networks:
+      - backend
+
+  supervisor:
+    image: neftelove_php
+    container_name: neftelove-php-supervisor-1
+    volumes:
+      - ./docker/php/php.ini:/usr/local/etc/php/php.ini
+      - ./html/:/var/www/html/
+      - ./docker/php/supervisord.d:/etc/supervisord.d
+    environment:
+      APP_ENV: local
+      CONTAINER_ROLE: supervisor
+    hostname: supervisor
+    depends_on:
+      - mariadb
+      - php
+    networks:
+      - backend
+
+  scheduler:
+    image: neftelove_php
+    container_name: neftelove-php-scheduler-1
+    volumes:
+      - ./docker/php/php.ini:/usr/local/etc/php/php.ini
+      - ./html/:/var/www/html/
+    environment:
+      APP_ENV: local
+      CONTAINER_ROLE: scheduler
+    hostname: php
+    depends_on:
+      - mariadb
+      - php
+    networks:
+      - backend
+
+  queue:
+    image: neftelove_php
+    container_name: neftelove-php-queue-1
+    volumes:
+      - ./docker/php/php.ini:/usr/local/etc/php/php.ini
+      - ./html/:/var/www/html/
+    environment:
+      APP_ENV: local
+      CONTAINER_ROLE: queue
+    hostname: php
+    depends_on:
+      - mariadb
+      - php
     networks:
       - backend
 
