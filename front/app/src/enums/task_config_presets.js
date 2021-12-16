@@ -14,7 +14,7 @@ export default {
     maxcc: 20,
   },
   RIVER: {
-    name_sputnik: SATELLITES.SENTINEL_1,
+    name_sputnik: SATELLITES.SENTINEL_2,
     contour_line_width: 2,
     sensetivity: 20,
     maxcc: 55,

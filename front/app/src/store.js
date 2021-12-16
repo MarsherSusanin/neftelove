@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import axios from 'axios'
 
 
-const API = "http://api.holodec.loc/"
+const API = "http://api.neftelove.pena.marketing/"
 
 
 Vue.use(Vuex)

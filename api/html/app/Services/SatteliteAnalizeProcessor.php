@@ -24,7 +24,7 @@ class SatteliteAnalizeProcessor {
             "contour_line_width" => "2",
             "sensitivity" => $this->task['sensetivity'],
             "maxcc" => $this->task['maxcc'],
-            "time_interval" => Carbon::today()->toDateString()."/".Carbon::tomorrow()->toDateString(),
+            "time_interval" => Carbon::today()->subDay()->toDateString()."/".Carbon::today()->toDateString(),
             "lat" => $this->task['lat'],
             "long" => $this->task['long'],
             "iLeng" => $this->task['i_leng']
