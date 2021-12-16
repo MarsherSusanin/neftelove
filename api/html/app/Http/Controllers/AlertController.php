@@ -20,7 +20,7 @@ class AlertController extends Controller
             return response()->json(Alert::where('status', $status));
         }
 
-        return response()->json(Alert::all());
+        return response()->json(Alert::with('task')->get());
     }
 
 
@@ -32,6 +32,7 @@ class AlertController extends Controller
      */
     public function show(Alert $alert)
     {
+        $alert->task;
         return response()->json($alert);
     }
 

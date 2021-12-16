@@ -1,22 +1,24 @@
 <template>
   <article :class="`taskboard__group taskboard__group--${this.group}`">
+    <card>
     <h3
+      slot="header"
       :class="`taskboard__group-heading taskboard__group-heading--${this.group}`"
     >
       {{ group }}
     </h3>
-    <task-component />
-    <task-component />
-    <task-component />
+    
+      <task-component v-for="item of list" :key="item.id" :data="item" />
+    </card>
   </article>
 </template>
 
 <script>
+import Card from './Cards/Card.vue';
 import TaskComponent from "./Task-component.vue";
-import tasks from "./data";
 
 export default {
-  components: { TaskComponent },
+  components: { TaskComponent, Card },
   data() {
     return {
       todos: [],
@@ -24,6 +26,7 @@ export default {
   },
   props: {
     group: String,
+    list: Array
   },
 };
 </script>

@@ -63,7 +63,7 @@ class TaskController extends Controller
         $task->update(json_decode($request->getContent(), true));
         $task->save();
 
-        //ProcessSatteliteAnalize::dispatch($task);
+        ProcessSatteliteAnalize::dispatch($task);
 
         return response()->json($task);
     }

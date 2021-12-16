@@ -25,6 +25,28 @@ export default new Vuex.Store({
 
   },
   actions: {
+    getAlerts () {
+      return axios({
+        method: 'get',
+        url: `${API}alerts`,
+      })
+      .then(response => response.data)
+    },
+    getAlert ({}, id) {
+      return axios({
+        method: 'get',
+        url: `${API}alerts/${id}`,
+      })
+      .then(response => response.data)
+    },
+    updateAlert ({}, data) {
+      return axios({
+        method: 'patch',
+        url: `${API}alerts/${data.id}`,
+        data: JSON.stringify(data)
+      })
+      .then(response => response.data)
+    },
     getTasks () {
       return axios({
         method: 'get',

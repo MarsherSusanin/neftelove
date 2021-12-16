@@ -181,6 +181,7 @@ export default {
   },
   methods: {
     send() {
+      console.log( this.info);
       this.$emit('send', Object.assign({}, this.info))
     },
 

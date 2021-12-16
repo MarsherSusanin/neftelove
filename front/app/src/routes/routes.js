@@ -8,6 +8,7 @@ import TaskList from '../pages/TaskList.vue'
 import TaskAdd from '../pages/TaskAdd.vue'
 import TaskUpdate from '../pages/TaskUpdate.vue'
 import AlertList from '../pages/AlertList.vue'
+import AlertUpdate from '../pages/AlertUpdate.vue'
 
 const routes = [
   {
@@ -44,6 +45,11 @@ const routes = [
         path: 'alertList',
         name: 'AlertList',
         component: AlertList,
+      },
+      {
+        path: 'alerts/:id',
+        name: 'UpdateAlert',
+        component: AlertUpdate
       },
     ]
   },

@@ -30,13 +30,15 @@ class SatteliteAnalizeProcessor {
             "iLeng" => $this->task['i_leng']
         ]
     );
-        $response->throw();
+        $response->throw(function ($response, $e) {
+
+        });
         Alert::create([
-            'contours' => $response['contours'],
-            'contours2' => $response['contours2'],
+            'contours' => json_encode( $response['contours'] ),
+            'contours2' => json_encode( $response['contours2'] ),
             'image' => $response['image'],
             'result_image' => $response['result_image'],
-            'task_id' => $this->task["id"]
+            'task_id' => $this->task['id']
         ]);
     }
 }
