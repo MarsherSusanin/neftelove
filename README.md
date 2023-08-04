@@ -74,4 +74,5 @@ python3 HighLight.py
 - [Любавский Глеб](https://t.me/Liubavskii_Gleb), senior designer, UI/UX, продуктовый дизайн, международные и федеральные бренды
 - [Гриценко Владимир](https://t.me/Amiwriter), senior architector, back-end, мнс ТОИ ДВО РАН, 15 лет стажа разработки промышленного ПО
 - [Деев Максим](https://t.me/MaksDeev), senior fullstack, преподаватель нескольких онлайн школ программирования, 7 лет боевой разработки
-- [Вилков Виктор](https://t.me/moskoviy), junior front-end, молодой и амбициозный 
+- [Вилков Виктор](https://t.me/moskoviy), junior front-end, молодой и амбициозный
+-  [Сизов Данил](https://t.me/sizov_da), junior back-end, студент ДВФУ 
